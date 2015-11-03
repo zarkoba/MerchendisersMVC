@@ -1,0 +1,1 @@
+﻿$("#successMsg").delay(2000).fadeOut(5000);

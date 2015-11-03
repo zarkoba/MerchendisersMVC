@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Meni";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>IZABERITE ŠTA ŽELITE DA MENJATE</h2>
+<br />
+<p>
+    @Html.ActionLink("Kreiranje, izmena i brisanje merčendajzera", "Index", new { }, new { @class = "btn btn-primary" })
+</p>
+<p>
+    @Html.ActionLink("Kreiranje i izmena grada", "Index", "Town", new { }, new { @class = "btn btn-primary" })
+</p>

@@ -1,0 +1,28 @@
+﻿@using (Html.BeginForm("Edit", "Town"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>IZMENA NAZIVA GRADA</h4>
+        <hr />
+        <div class="form-group">
+            @Html.Label("Izaberi grad:", htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-6">
+                @Html.DropDownList("TownId", ViewBag.TownList as SelectList, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Nov naziv grada:", htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-6">
+                @Html.TextBox("TownName", "", new { @class = "form-control" })
+                @Html.ValidationMessage("TownName", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-10">
+                <input type="submit" value="Izmeni naziv grada" class="btn btn-primary" />
+                @Html.ActionLink("Odustani", "Index", new { }, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}

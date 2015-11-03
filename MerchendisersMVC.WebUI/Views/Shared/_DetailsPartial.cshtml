@@ -1,0 +1,51 @@
+﻿@model MerchendisersMVC.Domain.Models.Merchendiser
+
+<h4>Informacije o merčendajzeru</h4>
+<h2>@Html.DisplayFor(m => m.LastName)</h2>
+<h3>@Html.DisplayFor(m => m.FirstName)</h3>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            JMBG:
+        </dt>
+        <dd>
+            @Html.DisplayFor(m => m.PersonalNo)
+        </dd>
+
+        <dt>
+            Adresa:
+        </dt>
+        <dd>
+            @Html.DisplayFor(m => m.Address.Street)
+            @Html.DisplayFor(m => m.Address.StreetNo)
+        </dd>
+        <dd>
+            @Html.DisplayFor(m => m.Address.PostalCode)
+            @Html.DisplayFor(m => m.Address.City)
+        </dd>
+        <dt>
+            Index:
+        </dt>
+        <dd>
+            @Html.DisplayFor(m => m.Index)
+        </dd>
+    </dl>
+
+    <dl class="dl-horizontal">
+        <dt>
+            Gradovi koje pokriva:
+        </dt>
+        <dd>
+            <ol>
+                @foreach (var t in Model.Towns.OrderBy(tw => tw.TownName))
+                {
+                    <li>@t.TownName</li>
+                }
+            </ol>
+        </dd>
+    </dl>
+</div>
+
+

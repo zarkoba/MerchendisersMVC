@@ -1,0 +1,126 @@
+﻿@model MerchendisersMVC.Domain.Models.Merchendiser
+
+@{
+    if (ViewContext.RouteData.Values["action"].Equals("Create"))
+    {
+        ViewBag.Title = "Kreiranje";
+    }
+    else
+    {
+        ViewBag.Title = "Izmena";         
+    }
+    
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@if (ViewContext.RouteData.Values["action"].Equals("Create"))
+{
+    <h2>KREIRANJE</h2>
+}
+else
+{
+    <h2>IZMENA</h2>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>merčendajzera</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.MerchendiserId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PersonalNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PersonalNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PersonalNo, "", new { @class = "text-danger" })
+                @Html.Hidden("originalPersonalNo", Model.PersonalNo)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address.Street, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address.Street, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address.Street, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address.StreetNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address.StreetNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address.StreetNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address.PostalCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address.PostalCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address.PostalCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address.City, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address.City, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address.City, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Index, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Index, new { htmlAttributes = new { @class = "form-control", min = "0", max = "10" } })
+                @Html.ValidationMessageFor(model => model.Index, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <hr />
+        <div class="form-group">
+            <h4>Gradovi koje pokriva merčendajzer:</h4>
+
+            @foreach (MerchendisersMVC.WebUI.Models.TownListViewModel t in ViewBag.TownList as IEnumerable<MerchendisersMVC.WebUI.Models.TownListViewModel>)
+            {
+                <p><input type="checkbox" name="checkedTowns" value="@t.TownId" @(Html.Raw(t.IsChecked ? "checked=\"checked\"" : "")) /> @t.TownName</p>
+            }
+        </div>
+        <hr />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Sačuvaj" class="btn btn-primary" />
+                @Html.ActionLink("Odustani", "Index", new { }, new { @class = "btn btn-primary" })
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts {    
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
+

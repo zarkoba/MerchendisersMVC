@@ -1,0 +1,58 @@
+﻿@model IEnumerable<MerchendisersMVC.Domain.Models.Merchendiser>
+
+@{
+    ViewBag.Title = "Lista";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    int no = 0;
+}
+
+<h2>Lista merčendajzera</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            Redni Broj
+        </th>
+        <th>
+            JMBG
+        </th>
+        <th>
+            Prezime
+        </th>
+        <th>
+            Ime
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var m in Model)
+    {
+        no++;
+        <tr>
+            <td>
+                @no
+            </td>
+            <td>
+                @m.PersonalNo
+            </td>
+            <td>
+                @m.LastName
+            </td>
+            <td>
+                @m.FirstName
+            </td>
+            <td>
+                @Html.ActionLink("Detalji", "Details", new { id = m.MerchendiserId }, new { @class = "btn btn-warning" })
+                @Html.ActionLink("Izmena", "Edit", new { id = m.MerchendiserId }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Brisanje", "Delete", new { id = m.MerchendiserId }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div class="text-left">
+    @Html.ActionLink("Dodaj novog", "Create", new { }, new { @class = "btn btn-primary" })
+</div>
+

@@ -1,0 +1,82 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model PagedList<MerchendisersMVC.Domain.Models.Merchendiser>
+
+@{
+    ViewBag.Title = "Lista";
+    int no = 0;     // row number
+}
+
+<div class="col-sm-3 col-md-3 pull-right">
+    @using (Html.BeginForm("Search", "Home", FormMethod.Get, new { @class = "navbar-form", role = "search" }))
+    {
+        <div class="input-group">
+            @Html.TextBox("q", "", new { @class = "form-control", placeholder = "Unesi naziv grada" })
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+            </div>
+        </div>
+    }
+</div>
+
+<h2 id="headerTitle">Lista merčendajzera</h2>
+
+<table id="listTable" class="table">
+    <tr>
+        <th>Redni broj</th>
+        @if (ViewContext.RouteData.Values["action"].ToString() == "Index")
+        {
+            // header sorting wehen full list
+            <th>@Html.ActionLink("JMBG", "Index", new { sortOrder = ViewBag.MerchIdSort })</th>
+            <th>@Html.ActionLink("Prezime", "Index", new { sortOrder = ViewBag.LastNameSort })</th>
+            <th>@Html.ActionLink("Ime", "Index", new { sortOrder = ViewBag.FirstNameSort })</th>
+        }
+        else
+        {
+            // header sorting when search
+            <th>@Html.ActionLink("JMBG", "Search", new { q = Request.QueryString["q"], sortOrder = ViewBag.MerchIdSort })</th>
+            <th>@Html.ActionLink("Prezime", "Search", new { q = Request.QueryString["q"], sortOrder = ViewBag.LastNameSort })</th>
+            <th>@Html.ActionLink("Ime", "Search", new { q = Request.QueryString["q"], sortOrder = ViewBag.FirstNameSort })</th>
+        }
+        <th></th>
+    </tr>
+
+    @if (Model.Count() == 0)
+    {
+        <tr><td colspan="5" class=”text-center”>Trenutno nema merčendajzera u evidenciji</td></tr>
+    }
+    else
+    {
+        foreach (var m in Model)
+        {
+            no++;
+            <tr>
+                <td>@((Model.PageNumber - 1) * Model.PageSize + no)</td>
+                <td>@m.PersonalNo</td>
+                <td>@m.LastName</td>
+                <td>@m.FirstName</td>
+                <td>
+                    @using (Html.BeginForm("Details", "Home", new { id = m.MerchendiserId }))
+                    {
+                        @Html.Hidden("id", m.MerchendiserId)
+                        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                        <input class="btn btn-sm btn-warning" type="submit" value="Detalji" />
+                    }
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+<div class="text-left">
+    @Html.ActionLink("Prikaži sve", "Index", new { }, new { @class = "btn btn-primary" })
+    @if (ViewContext.RouteData.Values["action"].ToString() == "Index")
+    {
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = Request.QueryString["sortOrder"] }))
+    }
+    else
+    {
+        @Html.PagedListPager(Model, page => Url.Action("Search", new { page, q = Request.QueryString["q"], sortOrder = Request.QueryString["sortOrder"] }))
+    }
+</div>
+

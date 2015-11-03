@@ -1,0 +1,30 @@
+﻿@model MerchendisersMVC.Domain.Models.Merchendiser
+
+@{
+    ViewBag.Title = "Brisanje";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>BRISANJE</h2>
+
+<h3>Da li ste sigurni da želite da obrišete sledećeg merčendajzera?</h3>
+<div>
+    <hr />    
+    <h3>@Html.DisplayFor(m => m.LastName)</h3>
+    <h4>@Html.DisplayFor(m => m.FirstName)</h4>
+    <h5>JMBG: @Html.DisplayFor(m => m.PersonalNo)</h5>
+    <hr />
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            @Html.Hidden("id", Model.MerchendiserId)
+            <input type="submit" value="Brisanje" class="btn btn-danger" />
+            @Html.ActionLink("Odustani", "Index", new { }, new { @class = "btn btn-primary" })
+        </div>
+    }
+</div>
+
+
